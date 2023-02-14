@@ -4,6 +4,8 @@ use Illuminate\Support\Facades\Route;
 
 //Admin
 use App\Http\Controllers\Admin\DashboardController;
+use App\Http\Controllers\Auth\LoginController;
+use App\Http\Controllers\Auth\RegisterController;
 
 /*
 |--------------------------------------------------------------------------
@@ -16,9 +18,8 @@ use App\Http\Controllers\Admin\DashboardController;
 |
 */
 
-Route::get('/', function () {
-    return view('Admin.main.dashboard');
-});
+
+Route::get('/', [LoginController::class, 'index'] )->name('login');
 
 
 //TTD persetujuan
@@ -28,8 +29,6 @@ Route::group([
 });
 
 // login
-Route::get('/login', [LoginController::class, 'index'] )->name('login');
-Route::get('/login', [LoginController::class, 'index'] )->name('login');
-Route::POST('/authentication', [LoginController::class, 'authentication'] )->name('authentication-admin');
-Route::POST('/logout', [LoginController::class, 'logout'] )->name('logout-auth');
+Route::get('/register', [RegisterController::class, 'index'] )->name('register');
+
 
