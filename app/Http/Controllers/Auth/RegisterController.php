@@ -54,20 +54,18 @@ class RegisterController extends Controller
                 return redirect()->back()->withErrors($validator)->withInput($request->all());
         } 
         else{
-       
-            $token = Str::random(64);
+                
+                        $token = Str::random(64);
 
-            $email = $request->email;
+                        $email = $request->email;
 
-            User::create([
-                'nama' => $request->nama,
-                'email' => $request->email,
-                'password' => Hash::make($request->password),
-                'remember_token' => $token,
-            ]);
-
-             
-
+                        User::create([
+                            'nama' => $request->nama,
+                            'email' => $request->email,
+                            'password' => Hash::make($request->password),
+                            'remember_token' => $token,
+                        ]);
+                        
                         $data_email = [
                             'subject' => 'Verifikasi Email',
                             'nama' => $request->nama,

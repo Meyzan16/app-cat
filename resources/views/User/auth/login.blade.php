@@ -64,25 +64,44 @@
                     <p class="text-center small">Gunakan email dan password anda</p>
                   </div>
 
-                  <form class="row g-3 needs-validation" novalidate>
 
-                    <div class="col-12">
-                      <label for="yourEmail" class="form-label">Email</label>
-                      <input type="email" name="email" class="form-control" id="yourEmail" required>
-                      <div class="invalid-feedback">Please enter a valid Email adddress!</div>
-                    </div>
+                        
+                  @if(session()->has('loginerror'))
+                  <div class="autohide alert alert-danger alert-dismissible fade show text-center small" role="alert">
+                    {{ session('loginerror'); }}
+                  </div>
+                @endif
 
-                    <div class="col-12">
-                      <label for="yourPassword" class="form-label">Password</label>
-                      <input type="password" name="password" class="form-control" id="yourPassword" required>
-                      <div class="invalid-feedback">Please enter your password!</div>
-                    </div>
+              
+
+                  <form class="row g-3 needs-validation" action="{{route('login.authenticate')}}" method="POST" novalidate>
+                      @csrf @method('POST')
+                      <div class="col-12">
+                        <label for="yourEmail" class="form-label">Email</label>
+                        <input type="email" name="email" class="form-control @error('email')is-invalid @enderror" id="yourEmail" required>
+                        @error('email') 
+                        <div class="invalid-feedback">
+                          {{ $message }}
+                        </div>
+                    @enderror
+                      </div>
+
+                      <div class="col-12">
+                        <label for="yourPassword" class="form-label">Password</label>
+                        <input type="password" name="password" class="form-control @error('password')is-invalid @enderror" id="yourPassword" required>
+                        @error('password') 
+                      <div class="invalid-feedback">
+                        {{ $message }}
+                      </div>
+                  @enderror
+                      </div>
 
                   
                     
-                    <div class="col-12">
-                      <button class="btn btn-primary w-100" type="submit">Login</button>
-                    </div>
+                      <div class="col-12">
+                        <button class="btn btn-primary w-100" type="submit">Login</button>
+                      </div>
+
                     <div class="col-12">
                       <p class="small mb-0">Belum punya akun ? <a href="{{route('register')}}">Buat akun</a></p>
                     </div>
@@ -104,6 +123,14 @@
 
   <a href="#" class="back-to-top d-flex align-items-center justify-content-center"><i class="bi bi-arrow-up-short"></i></a>
 
+  <script>
+    window.setTimeout(function() {
+      $(".autohide").fadeTo(500, 0).slideUp(500, function() {
+          $(this).remove();
+      });
+  }, 4000);
+</script>
+
   <!-- Vendor JS Files -->
   <script src="/template-user/assets/vendor/apexcharts/apexcharts.min.js"></script>
   <script src="/template-user/assets/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
@@ -116,6 +143,8 @@
 
   <!-- Template Main JS File -->
   <script src="/template-user/assets/js/main.js"></script>
+
+ 
 
 </body>
 

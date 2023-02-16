@@ -26,7 +26,6 @@ use App\Http\Controllers\User\UserDashboardController;
 */
 
 
-Route::get('/', [LoginController::class, 'index'] )->name('login');
 
 
 Route::group([
@@ -34,10 +33,14 @@ Route::group([
     Route::get('/dashboard', [DashboardController::class, 'index'] )->name('admin.dashboard');
 });
 
-// login
+// register
 Route::get('/register', [RegisterController::class, 'index'] )->name('register');
 Route::POST('/create-akun', [RegisterController::class, 'create'] )->name('register-post');
 Route::get('{token}/aktivasi-token', [LoginController::class, 'aktivasi'] )->name('aktivasi.token');
+
+//login
+Route::get('/', [LoginController::class, 'index'] )->name('login');
+Route::POST('/authentifikasi', [LoginController::class, 'authenticate'] )->name('login.authenticate');
 
 //User
 Route::group([
