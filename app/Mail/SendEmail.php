@@ -9,18 +9,19 @@ use Illuminate\Mail\Mailables\Content;
 use Illuminate\Mail\Mailables\Envelope;
 use Illuminate\Queue\SerializesModels;
 
-class AuthSendEmail extends Mailable
+class SendEmail extends Mailable
 {
     use Queueable, SerializesModels;
+    public $data_email;
 
     /**
      * Create a new message instance.
      *
      * @return void
      */
-    public function __construct()
+    public function __construct($data_email)
     {
-        //
+        $this->data_email = $data_email;
     }
 
     /**
@@ -31,7 +32,9 @@ class AuthSendEmail extends Mailable
     public function envelope()
     {
         return new Envelope(
-            subject: 'Auth Send Email',
+            subject: $this->data_email['subject'],
+          
+          
         );
     }
 
@@ -43,7 +46,11 @@ class AuthSendEmail extends Mailable
     public function content()
     {
         return new Content(
-            view: 'view.name',
+            view: 'User.auth.mail',
+            with: [
+                'nama' =>  $this->data_email['nama'],
+                'token' =>  $this->data_email['token'],
+            ],
         );
     }
 

@@ -36,6 +36,8 @@ Route::group([
 
 // login
 Route::get('/register', [RegisterController::class, 'index'] )->name('register');
+Route::POST('/create-akun', [RegisterController::class, 'create'] )->name('register-post');
+Route::get('{token}/aktivasi-token', [LoginController::class, 'aktivasi'] )->name('aktivasi.token');
 
 //User
 Route::group([
