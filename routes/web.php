@@ -40,12 +40,14 @@ Route::get('{token}/aktivasi-token', [LoginController::class, 'aktivasi'] )->nam
 
 //login
 Route::get('/', [LoginController::class, 'index'] )->name('login');
+Route::get('/auth/redirect', [LoginController::class, 'googleRedirect'] )->name('google.redirect');
+Route::get('/google/redirect', [LoginController::class, 'googleCallback'] )->name('google.callback');
 Route::POST('/authentifikasi', [LoginController::class, 'authenticate'] )->name('login.authenticate');
 
 //User
 Route::group([
     'prefix' => 'user/'], function(){
-    Route::get('/dashboard', [UserDashboardController::class, 'index'] )->name('user.dashboard');
+    Route::get('/dashboard', [UserDashboardController::class, 'index'] )->name('user.dashboard')->middleware('auth');
 });
 
 

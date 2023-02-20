@@ -8,6 +8,8 @@ use Session;
 use App\Models\User;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Validator;
+use Laravel\Socialite\Facades\Socialite;
+
 
 
 class LoginController extends Controller
@@ -73,6 +75,57 @@ class LoginController extends Controller
         }else{
             return back()->with('loginerror', 'Email dan Password Salah');
         }
+    }
+
+    public function googleRedirect()
+    {
+        return Socialite::driver('google')->redirect();  
+    }
+
+    public function googleCallback(Request $request)
+    {
+        $user = Socialite::driver('google')->user();
+        
+        $authuser = User::where('email', $user->email)->first();
+
+        if($authuser)
+        {
+            Auth::login($authuser);
+            User::where('email', $user->email)->update([
+                'aktivasi' => 1,
+                'remember_token' => $user->token,
+            ]);
+
+             return view('User.main.dashboard', compact('user'));
+
+        }else{
+           
+            User::create([
+                'id_google' => $user->id,
+                'nama' => $user->name,
+                'email' => $user->email,
+                'password' => '-',
+                'aktivasi' => 1,
+                'remember_token' => $user->token,
+            ]);
+        
+         
+             return view('User.main.dashboard', compact('user'));
+        }   
+
+    }
+
+    public function logout(Request $request)
+    {
+        Auth::logout();
+
+        //invalid session supaya tidak bisa dipakai
+        $request->session()->flush();
+        $request->session()->invalidate();
+        //bikin token baru supaya tidak dibajak
+        $request->session()->regenerateToken();
+        //redirect ke halaman mana
+        return \redirect()->route('login');
     }
    
 }

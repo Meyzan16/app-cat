@@ -101,6 +101,9 @@
                       <div class="col-12">
                         <button class="btn btn-primary w-100" type="submit">Login</button>
                       </div>
+                        <div class="col-12">
+                           <a href="{{route('google.redirect')}}">Sign with akun google</a>
+                        </div>
 
                     <div class="col-12">
                       <p class="small mb-0">Belum punya akun ? <a href="{{route('register')}}">Buat akun</a></p>
@@ -149,3 +152,7 @@
 </body>
 
 </html>
+
+{{-- client id 706402960114-9om2vff5i51q47r2tdcorkke396hanur.apps.googleusercontent.com
+
+client secret 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 --}}
