@@ -43,6 +43,7 @@ Route::get('/', [LoginController::class, 'index'] )->name('login');
 Route::get('/auth/redirect', [LoginController::class, 'googleRedirect'] )->name('google.redirect');
 Route::get('/google/redirect', [LoginController::class, 'googleCallback'] )->name('google.callback');
 Route::POST('/authentifikasi', [LoginController::class, 'authenticate'] )->name('login.authenticate');
+Route::post('/logout-user', [LoginController::class, 'logout'])->name('logout.user');
 
 //User
 Route::group([

@@ -11,7 +11,6 @@ use Illuminate\Support\Facades\Validator;
 use Laravel\Socialite\Facades\Socialite;
 
 
-
 class LoginController extends Controller
 {
     public function index()
@@ -96,7 +95,10 @@ class LoginController extends Controller
                 'remember_token' => $user->token,
             ]);
 
-             return view('User.main.dashboard', compact('user'));
+            Session::put('email', $authuser->email);
+
+            return redirect()->route('user.dashboard');
+
 
         }else{
            
@@ -108,9 +110,12 @@ class LoginController extends Controller
                 'aktivasi' => 1,
                 'remember_token' => $user->token,
             ]);
-        
-         
-             return view('User.main.dashboard', compact('user'));
+
+            $authuser = User::where('email', $user->email)->first();
+            Session::put('email', $authuser->email);
+            Auth::login($authuser);
+            
+            return redirect()->route('user.dashboard');
         }   
 
     }
